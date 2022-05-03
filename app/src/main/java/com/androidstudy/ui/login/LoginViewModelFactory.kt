@@ -2,13 +2,10 @@ package com.androidstudy.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.androidstudy.data.LoginDataSource
 import com.androidstudy.data.LoginRepository
+import com.androidstudy.network.LoginNetwork
+import com.androidstudy.network.apiServiceClient
 
-/**
- * ViewModel provider factory to instantiate LoginViewModel.
- * Required given LoginViewModel has a non-empty constructor
- */
 class LoginViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -16,7 +13,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                 loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
+                    loginNetwork = LoginNetwork(apiServiceClient())
                 )
             ) as T
         }
