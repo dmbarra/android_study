@@ -26,6 +26,7 @@ class LoginNetwork(private val apiLoginInterface: ApiLoginInterface) {
            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                if(!response.isSuccessful){
                    resultOfRequest.postValue(Result.Error(IOException("Error logging in")))
+                  return
                }
                val responseMessage = response.body()?.string()
                val userFromResponse = Gson().fromJson(responseMessage, LoggedInUser::class.java)
