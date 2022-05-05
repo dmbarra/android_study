@@ -1,5 +1,7 @@
 package com.androidstudy.ui.login
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
@@ -11,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.androidstudy.databinding.FragmentLoginBinding
 
@@ -100,10 +103,16 @@ class LoginFragment : Fragment() {
 
         loginButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
+            view.let { activity?.hideKeyboard(it) }
             loginViewModel.login(
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString()
             )
+            loginViewModel.loginRequestResult.observe(viewLifecycleOwner,
+                Observer { loginRequestResult ->
+                    loginRequestResult ?: return@Observer
+                    loginViewModel.loginRequestResult()
+                })
         }
     }
 
@@ -121,5 +130,11 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

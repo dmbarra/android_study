@@ -28,6 +28,6 @@ fun retrofit() : Retrofit =
         .addConverterFactory(GsonConverterFactory.create(gson()))
         .build()
 
-fun apiServiceClient() : ApiService =
+fun apiClientLogin() : ApiLoginInterface =
     retrofit()
-        .create(ApiService::class.java)
+        .create(ApiLoginInterface::class.java)

@@ -8,6 +8,7 @@ import com.androidstudy.data.LoginRepository
 import com.androidstudy.data.Result
 
 import com.androidstudy.R
+import com.androidstudy.data.model.LoggedInUser
 import com.androidstudy.data.model.LoginRequest
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
@@ -18,12 +19,17 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(email: String, password: String) {
-        val result = loginRepository.login(LoginRequest(email, password)).value
+    var loginRequestResult: LiveData<Result<LoggedInUser>>  = MutableLiveData<Result<LoggedInUser>>()
 
+    fun login(email: String, password: String) {
+        loginRequestResult = loginRepository.login(LoginRequest(email, password))
+    }
+
+    fun loginRequestResult(){
+        val result = loginRequestResult.value
         if (result is Result.Success) {
             _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                LoginResult(success = LoggedInUserView(displayName = (result as Result.Success<LoggedInUser>).data.displayName))
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }

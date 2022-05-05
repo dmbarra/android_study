@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidstudy.data.LoginRepository
 import com.androidstudy.network.LoginNetwork
-import com.androidstudy.network.apiServiceClient
+import com.androidstudy.network.apiClientLogin
 
 class LoginViewModelFactory : ViewModelProvider.Factory {
 
@@ -13,7 +13,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                 loginRepository = LoginRepository(
-                    loginNetwork = LoginNetwork(apiServiceClient())
+                    loginNetwork = LoginNetwork(apiClientLogin())
                 )
             ) as T
         }
