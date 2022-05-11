@@ -26,6 +26,10 @@ class LoginFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -120,6 +124,7 @@ class LoginFragment : Fragment() {
         val welcome = getString(R.string.welcome) + model.displayName
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit();
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
