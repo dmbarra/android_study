@@ -9,6 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.androidstudy.ui.login.LoginFragment
 
 
@@ -18,31 +20,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val materialToolbar:Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(materialToolbar)
-
-
+        val myNavHostFragment: NavHostFragment = supportFragmentManager.fragments[0] as NavHostFragment
+        val inflater = myNavHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_graph)
+        myNavHostFragment.navController.graph = graph
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_login_menu -> {
-                replaceFragmentOnFrame(LoginFragment())
-            }
-            else -> {}
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun replaceFragmentOnFrame(fragment: Fragment) {
-        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_main_layout, fragment)
-        fragmentTransaction.commit()
-    }
 }
