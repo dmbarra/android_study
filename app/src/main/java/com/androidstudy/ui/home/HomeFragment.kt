@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.home_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         val materialToolbar: Toolbar = rootView.findViewById(R.id.toolbar)
