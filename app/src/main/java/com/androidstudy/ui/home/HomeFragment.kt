@@ -1,12 +1,11 @@
 package com.androidstudy.ui.home
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.androidstudy.R
 import com.androidstudy.ui.login.LoginFragment
 
@@ -16,6 +15,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
+    private val bundle = Bundle()
     private lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +52,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun replaceFragmentOnFrame(fragment: Fragment) {
+        fragment.arguments = bundle
         val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
         if (fragmentTransaction != null) {
             fragmentTransaction.replace(R.id.frame_menu_layout, fragment)
             fragmentTransaction.commit()
         }
     }
+
 }

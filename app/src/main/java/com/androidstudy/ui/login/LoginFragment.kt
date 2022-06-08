@@ -26,16 +26,11 @@ class LoginFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -124,7 +119,14 @@ class LoginFragment : Fragment() {
         val welcome = getString(R.string.welcome) + model.displayName
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        updateArguments(model)
         activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit();
+    }
+
+    private fun updateArguments(model: LoggedInUserView) {
+        arguments?.putString("displayName", model.displayName)
+        arguments?.putString("userId", model.userId)
+        arguments?.putString("accessToken", model.accessToken)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
@@ -138,8 +140,9 @@ class LoginFragment : Fragment() {
     }
 
 
-    fun Context.hideKeyboard(view: View) {
+    private fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
 }
