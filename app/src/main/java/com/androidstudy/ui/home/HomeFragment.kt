@@ -31,7 +31,10 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         val materialToolbar: Toolbar = rootView.findViewById(R.id.toolbar)
-        (activity as AppCompatActivity).setSupportActionBar(materialToolbar)
+        if(activity is AppCompatActivity){
+            (activity as AppCompatActivity).setSupportActionBar(materialToolbar)
+        }
+
 
         return rootView
     }
